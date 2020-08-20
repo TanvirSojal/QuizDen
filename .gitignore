@@ -1,0 +1,3 @@
+# in server
+/node_modules
+.env
