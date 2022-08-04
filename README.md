@@ -32,7 +32,7 @@ A simple and minimalist quiz building and participating application. After build
 
 ### Database System
 
-- MongoDB (NoSQL database, Mongoose ORM used for queries)
+- MongoDB (NoSQL database, Mongoose ODM used for queries)
 
 ### UI Elements
 
