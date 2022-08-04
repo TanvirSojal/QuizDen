@@ -15,7 +15,7 @@ A simple and minimalist quiz building and participating application. After build
 ### Back-end System
 
 - ExpressJS (NodeJS web framework)
-- Mongoose (MongoDB ORM)
+- Mongoose (MongoDB ODM)
 
 ### Front-end System
 
