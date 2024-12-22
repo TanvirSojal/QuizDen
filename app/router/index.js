@@ -10,7 +10,7 @@ const quiz = require("./quiz");
 // {base API URL}
 const api_uri = process.env.API_URI;
 
-router.get("/", (req, res) => {
+router.get(api_uri, (req, res) => {
   res.send("Hello to QuizDen Backend System");
 });
 
