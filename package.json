@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
+    "prestart": "cd client && npm install && npm run build",
     "server": "nodemon app.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
