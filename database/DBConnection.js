@@ -12,7 +12,7 @@ function connect() {
 }
 
 const DBConnection = {
-  dbconnect: () => {
+  dbConnect: () => {
     try {
       connect();
     } catch (err) {

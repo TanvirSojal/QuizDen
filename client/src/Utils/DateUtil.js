@@ -1,5 +1,5 @@
 const DateUtil = {
-  getFormatedDateTime: (date) => {
+  getFormattedDateTime: (date) => {
     const dateTime = date.split("T");
     let time = "";
     if (dateTime.length > 0) {

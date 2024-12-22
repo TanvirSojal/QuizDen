@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 });
 
 // connect to database
-DBConnection.dbconnect();
+DBConnection.dbConnect();
 
 // route middleware
 router.use(api_uri + "/auth", auth);
