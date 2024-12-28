@@ -1,6 +1,6 @@
 import React from "react";
-import Emoji from "../Layout/Emoji";
 import DateUtil from "../../Utils/DateUtil";
+import Emoji from "../Layout/Emoji";
 
 const QuizInfo = (props) => {
   return (
@@ -30,7 +30,7 @@ const QuizInfo = (props) => {
             color: "dimgray",
           }}
         >
-          {DateUtil.getFormatedDateTime(props.date)}
+          {DateUtil.getFormattedDateTime(props.date)}
         </td>
         <td
           className="option-dropdown"
