@@ -1,34 +1,30 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import NavBar from "../Layout/NavBar";
 import { Link, Navigate } from "react-router-dom";
 import AuthService from "../../service/AuthService";
 import QuizzerService from "../../service/QuizzerService";
 import AuthError from "../Layout/AuthError";
 
-class Login extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: "",
-      password: "",
-      error: false,
-    };
-  }
+const Login = (props) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
-  handleEmailChange = (e) => {
-    this.setState({ email: e.target.value, error: false });
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setError(false);
   };
 
-  handlePasswordChange = (e) => {
-    this.setState({ password: e.target.value, error: false });
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+    setError(false);
   };
 
-  handleLoginSubmit = (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
-    const { email, password } = this.state;
     AuthService.login({ email, password }).then((response) => {
       if (response === false) {
-        this.setState({ error: true });
+        setError(true);
       } else {
         sessionStorage.setItem("quizden-authToken", response.authToken);
         sessionStorage.setItem("quizden-user-id", response._id);
@@ -37,10 +33,10 @@ class Login extends Component {
         QuizzerService.getQuizzer(response._id, response.authToken).then(
           (response) => {
             if (response === false) {
-              this.setState({ error: true });
+              setError(true);
             } else {
-              this.props.onLogin(response);
-              this.props.history.push("/dashboard");
+              props.onLogin(response);
+              props.history.push("/dashboard");
             }
           }
         );
@@ -48,17 +44,15 @@ class Login extends Component {
     });
   };
 
-  render() {
-    // console.log("register", sessionStorage.getItem("isLoggedIn"));
-    if (this.props.checkLogin()) {
-      return <Navigate to={{ pathname: "/dashboard" }} />;
-    }
-    return (
-      <React.Fragment>
-        <NavBar
-          isLoggedIn={this.props.isLoggedIn}
-          checkLogin={this.props.checkLogin}
-          onLogout={this.props.onLogout}
+  // console.log("register", sessionStorage.getItem("isLoggedIn"));
+  if (props.checkLogin()) {
+    return <Navigate to={{ pathname: "/dashboard" }} />;
+  }
+  return (
+      <React.Fragment>        <NavBar
+          isLoggedIn={props.isLoggedIn}
+          checkLogin={props.checkLogin}
+          onLogout={props.onLogout}
         />
         <div className="container-fluid">
           <div className="row">
@@ -78,7 +72,7 @@ class Login extends Component {
               <div className="auth-title mt-1">Login</div>
             </div>
           </div>
-          <form onSubmit={this.handleLoginSubmit}>
+          <form onSubmit={handleLoginSubmit}>
             <div className="form-group">
               {/* email */}
               <div className="row mt-4">
@@ -92,12 +86,11 @@ class Login extends Component {
                     className="form-control input-field"
                     aria-describedby="emailInput"
                     placeholder="johndoe@email.com"
-                    value={this.state.email}
-                    onChange={this.handleEmailChange}
+                    value={email}
+                    onChange={handleEmailChange}
                   />
                 </div>
               </div>
-
               {/* password */}
               <div className="row mt-4">
                 <div
@@ -113,8 +106,8 @@ class Login extends Component {
                     className="form-control input-field"
                     aria-describedby="passwordInput"
                     placeholder="your password"
-                    value={this.state.password}
-                    onChange={this.handlePasswordChange}
+                    value={password}
+                    onChange={handlePasswordChange}
                   />
                 </div>
               </div>
@@ -142,7 +135,7 @@ class Login extends Component {
                   </Link>
                 </div>
               </div>
-              {this.state.error && (
+              {error && (
                 <AuthError text="Invalid credentials given!" />
               )}
             </div>
@@ -150,7 +143,6 @@ class Login extends Component {
         </div>
       </React.Fragment>
     );
-  }
-}
+};
 
 export default Login;
