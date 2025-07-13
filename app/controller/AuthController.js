@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const Joi = require("@hapi/joi");
+const Joi = require("joi");
 const jwt = require("jsonwebtoken");
 
 // database schema
@@ -22,6 +22,9 @@ const AuthController = {
 
       // checking if already exists
       const existingUser = await User.findOne({ email: req.body.email });
+
+      console.log(existingUser)
+
       if (existingUser) return res.status(400).send("User already exists");
 
       // create user

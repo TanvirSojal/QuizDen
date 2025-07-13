@@ -1,4 +1,4 @@
-const Joi = require("@hapi/joi");
+const Joi = require("joi");
 
 const Quiz = require("../model/Quiz");
 const QuizzerController = require("./QuizzerController");

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { date } = require("@hapi/joi");
+const { date } = require("joi");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);

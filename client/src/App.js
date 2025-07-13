@@ -83,60 +83,50 @@ class App extends Component {
         /> */}
         <Routes>
           <Route
-            exact
             path="/"
-            render={(props) => (
+            element={
               <Landing
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/registration"
-            render={(props) => (
+            element={
               <Registration
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/login"
-            render={(props) => (
+            element={
               <Login
-                {...props}
                 onLogin={this.handleLogin}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/done"
-            render={(props) => (
+            element={
               <RegistrationDone
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/dashboard"
-            render={(props) => (
+            element={
               <Dashboard
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
@@ -145,72 +135,62 @@ class App extends Component {
                 onQuizLoad={this.handleQuizzesCurated}
                 onUserUpdate={this.handleUserUpdate}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/quiz-builder"
-            render={(props) => (
+            element={
               <QuizBuilder
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
                 user={this.state.user}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/quiz-done"
-            render={(props) => (
+            element={
               <QuizDone
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
                 user={this.state.user}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/quiz-fetcher"
-            render={(props) => (
+            element={
               <QuizFetcher
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
                 onQuizFetch={this.handleQuizFetch}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/quiz-taker"
-            render={(props) => (
+            element={
               <QuizTaker
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
                 quiz={this.state.quizAttending}
                 user={this.state.user}
               />
-            )}
+            }
           />
           <Route
-            exact
             path="/quiz-taken"
-            render={(props) => (
+            element={
               <QuizTaken
-                {...props}
                 isLoggedIn={this.state.isLoggedIn}
                 checkLogin={this.checkLogin}
                 onLogout={this.handleLogout}
               />
-            )}
+            }
           />
         </Routes>
       </Router>
