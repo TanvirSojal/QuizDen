@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import "./App.css";
 import Landing from "./components/Landing/Landing";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Registration from "./components/Authentication/Registration";
 import Login from "./components/Authentication/Login";
 import RegistrationDone from "./components/Authentication/RegistrationDone";
@@ -72,7 +72,7 @@ class App extends Component {
 
   render() {
     // if (this.checkLogin()) {
-    //   return <Redirect to={{ pathname: "/dashboard" }} />;
+    //   return <Navigate to={{ pathname: "/dashboard" }} />;
     // }
     return (
       <Router>
@@ -81,7 +81,7 @@ class App extends Component {
           checkLogin={this.checkLogin}
           onLogout={this.handleLogout}
         /> */}
-        <Switch>
+        <Routes>
           <Route
             exact
             path="/"
@@ -212,7 +212,7 @@ class App extends Component {
               />
             )}
           />
-        </Switch>
+        </Routes>
       </Router>
     );
   }

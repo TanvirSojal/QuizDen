@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "../Layout/NavBar";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import Emoji from "../Layout/Emoji";
 import QuizService from "../../service/QuizService";
 import QuizHeader from "./QuizHeader";
@@ -37,7 +37,7 @@ class QuizFetcher extends Component {
 
   render() {
     if (!this.props.checkLogin()) {
-      return <Redirect to={{ pathname: "/login" }} />;
+      return <Navigate to={{ pathname: "/login" }} />;
     }
     return (
       <React.Fragment>

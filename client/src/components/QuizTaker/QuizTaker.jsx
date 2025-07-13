@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "../Layout/NavBar";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import QuizQuestion from "./QuizQuestion";
 import Emoji from "../Layout/Emoji";
 import QuizService from "../../service/QuizService";
@@ -56,7 +56,7 @@ class QuizTaker extends Component {
 
   render() {
     if (!this.props.checkLogin()) {
-      return <Redirect to={{ pathname: "/login" }} />;
+      return <Navigate to={{ pathname: "/login" }} />;
     }
 
     const { quiz } = this.state;

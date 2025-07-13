@@ -3,7 +3,7 @@ import NavBar from "../Layout/NavBar";
 import Question from "./Question";
 import Emoji from "../Layout/Emoji";
 import QuizService from "../../service/QuizService";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 class QuizBuilder extends Component {
   constructor(props) {
@@ -138,7 +138,7 @@ class QuizBuilder extends Component {
 
   render() {
     if (!this.props.checkLogin()) {
-      return <Redirect to={{ pathname: "/login" }} />;
+      return <Navigate to={{ pathname: "/login" }} />;
     }
     return (
       <React.Fragment>

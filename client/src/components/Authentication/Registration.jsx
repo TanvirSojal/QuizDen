@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import NavBar from "../Layout/NavBar";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import AuthService from "../../service/AuthService";
 import AuthError from "../Layout/AuthError";
 
@@ -42,10 +42,10 @@ class Registration extends Component {
   render() {
     // console.log("register", sessionStorage.getItem("isLoggedIn"));
     if (this.props.checkLogin()) {
-      return <Redirect to={{ pathname: "/dashboard" }} />;
+      return <Navigate to={{ pathname: "/dashboard" }} />;
     }
     // if (sessionStorage.getItem("isLoggedIn") === "true") {
-    //   return <Redirect to={{ pathname: "/dashboard" }} />;
+    //   return <Navigate to={{ pathname: "/dashboard" }} />;
     // }
     return (
       <React.Fragment>

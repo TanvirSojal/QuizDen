@@ -1,11 +1,11 @@
 import React from "react";
 import NavBar from "../Layout/NavBar";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 const QuizTaken = (props) => {
   const { quiz } = props.location.state;
   //   if (!props.quiz) {
-  //     return <Redirect to={{ pathname: "/dashboard" }} />;
+  //     return <Navigate to={{ pathname: "/dashboard" }} />;
   //   }
   return (
     <React.Fragment>

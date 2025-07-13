@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import NavBar from "../Layout/NavBar";
 import Profile from "./Profile";
 import Tools from "./Tools";
@@ -42,7 +42,7 @@ class Dashboard extends Component {
 
   render() {
     if (!this.props.checkLogin()) {
-      return <Redirect to={{ pathname: "/login" }} />;
+      return <Navigate to={{ pathname: "/login" }} />;
     }
     return (
       <React.Fragment>
