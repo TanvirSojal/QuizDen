@@ -3,9 +3,11 @@ import NavBar from "../Layout/NavBar";
 import Question from "./Question";
 import Emoji from "../Layout/Emoji";
 import QuizService from "../../service/QuizService";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const QuizBuilder = (props) => {
+  const navigate = useNavigate();
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
@@ -127,10 +129,7 @@ const QuizBuilder = (props) => {
         // if the quiz is invalid
       } else {
         const { _id } = response;
-        props.history.push({
-          pathname: "/quiz-done",
-          state: { quiz_id: _id },
-        });
+        navigate("/quiz-done", { state: { quiz_id: _id } });
       }
     });
   };

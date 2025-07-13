@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import NavBar from "../Layout/NavBar";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import QuizQuestion from "./QuizQuestion";
 import Emoji from "../Layout/Emoji";
 import QuizService from "../../service/QuizService";
 
 const QuizTaker = (props) => {
+  const navigate = useNavigate();
+
   const { questions } = props.quiz;
   const initialAnswers = [];
   for (let i = 0; i < questions.length; i++) {
@@ -42,10 +44,7 @@ const QuizTaker = (props) => {
       if (response === false) {
         console.log("FAILED!");
       } else {
-        props.history.push({
-          pathname: "/quiz-taken",
-          state: { quiz: response },
-        });
+        navigate("/quiz-taken", { state: { quiz: response } });
       }
     });
   };

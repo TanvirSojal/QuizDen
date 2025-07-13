@@ -1,9 +1,11 @@
 import React from "react";
 import NavBar from "../Layout/NavBar";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 
 const QuizTaken = (props) => {
-  const { quiz } = props.location.state;
+  const location = useLocation();
+
+  const { quiz } = location.state;
   //   if (!props.quiz) {
   //     return <Navigate to={{ pathname: "/dashboard" }} />;
   //   }

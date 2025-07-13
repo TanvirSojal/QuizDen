@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import NavBar from "../Layout/NavBar";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import AuthService from "../../service/AuthService";
 import QuizzerService from "../../service/QuizzerService";
 import AuthError from "../Layout/AuthError";
 
 const Login = (props) => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -36,7 +38,7 @@ const Login = (props) => {
               setError(true);
             } else {
               props.onLogin(response);
-              props.history.push("/dashboard");
+              navigate("/dashboard");
             }
           }
         );

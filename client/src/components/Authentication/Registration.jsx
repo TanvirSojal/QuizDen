@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import NavBar from "../Layout/NavBar";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import AuthService from "../../service/AuthService";
 import AuthError from "../Layout/AuthError";
 
 const Registration = (props) => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,7 +33,7 @@ const Registration = (props) => {
       if (response === false) {
         setError(true);
       } else {
-        props.history.push("/done");
+        navigate("/done");
       }
     });
   };

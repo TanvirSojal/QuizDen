@@ -1,8 +1,10 @@
 import React from "react";
 import NavBar from "../Layout/NavBar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const QuizDone = (props) => {
+  const location = useLocation();
+
   return (
     <React.Fragment>
       <NavBar
@@ -66,7 +68,7 @@ const QuizDone = (props) => {
                 backgroundColor: "var(--quizden-light)",
               }}
             >
-              {props.location.state.quiz_id}
+              {location.state.quiz_id}
             </div>
           </div>
         </div>
