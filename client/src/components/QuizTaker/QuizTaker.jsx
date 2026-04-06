@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import NavBar from "../Layout/NavBar";
 import { Navigate, useNavigate } from "react-router-dom";
 import QuizQuestion from "./QuizQuestion";
@@ -8,36 +8,29 @@ import QuizService from "../../service/QuizService";
 const QuizTaker = (props) => {
   const navigate = useNavigate();
 
-  const { questions } = props.quiz;
-  const initialAnswers = [];
-  for (let i = 0; i < questions.length; i++) {
-    initialAnswers.push({
-      question_id: questions[i].id,
-      answer: -1,
-    });
-  }
+  const { quiz, user } = props;
 
-  const [quiz] = useState(props.quiz);
-  const [user] = useState(props.user);
-  const [answers, setAnswers] = useState(initialAnswers);
+  const [answers, setAnswers] = useState(() =>
+    quiz.questions.map((q) => ({ question_id: q.id, answer: -1 }))
+  );
 
   useEffect(() => {
     sessionStorage.setItem("quiz-attending", quiz._id);
   }, [quiz._id]);
 
-  const handleSelectAnswer = (q_id, opt_id) => {
-    const index = answers.findIndex((answer) => answer.question_id === q_id);
-    const newAnswers = [...answers];
-    newAnswers[index].answer = opt_id;
-    setAnswers(newAnswers);
-  };
+  const handleSelectAnswer = useCallback((q_id, opt_id) => {
+    setAnswers((prev) => {
+      const index = prev.findIndex((answer) => answer.question_id === q_id);
+      const newAnswers = [...prev];
+      newAnswers[index] = { ...newAnswers[index], answer: opt_id };
+      return newAnswers;
+    });
+  }, []);
 
-  const handleSubmit = () => {
-    const user_id = user._id;
-    const quiz_id = quiz._id;
+  const handleSubmit = useCallback(() => {
     const request = {
-      user_id: user_id,
-      quiz_id: quiz_id,
+      user_id: user._id,
+      quiz_id: quiz._id,
       answers: [...answers],
     };
     QuizService.submitAnswer(request).then((response) => {
@@ -47,7 +40,7 @@ const QuizTaker = (props) => {
         navigate("/quiz-taken", { state: { quiz: response } });
       }
     });
-  };
+  }, [user._id, quiz._id, answers, navigate]);
 
   if (!props.checkLogin()) {
     return <Navigate to={{ pathname: "/login" }} />;

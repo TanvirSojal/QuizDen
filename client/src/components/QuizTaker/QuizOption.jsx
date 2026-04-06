@@ -1,6 +1,6 @@
-import React from "react";
+import React, { memo } from "react";
 
-const QuizOption = (props) => {
+const QuizOption = memo((props) => {
   return (
     <div className="col-sm-12">
       <div className="row">
@@ -30,6 +30,8 @@ const QuizOption = (props) => {
       </div>
     </div>
   );
-};
+});
+
+QuizOption.displayName = "QuizOption";
 
 export default QuizOption;

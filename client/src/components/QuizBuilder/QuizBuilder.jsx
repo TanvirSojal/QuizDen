@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import NavBar from "../Layout/NavBar";
 import Question from "./Question";
 import Emoji from "../Layout/Emoji";
@@ -13,116 +13,101 @@ const QuizBuilder = (props) => {
   const [type, setType] = useState("");
   const [questions, setQuestions] = useState([]);
 
-  const handleResetAll = (e) => {
+  const handleResetAll = useCallback(() => {
     setTitle("");
     setDescription("");
     setType("");
     setQuestions([]);
-  };
+  }, []);
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = useCallback((e) => {
     setTitle(e.target.value);
-  };
+  }, []);
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = useCallback((e) => {
     setDescription(e.target.value);
-  };
+  }, []);
 
-  const handleTypeChange = (e) => {
+  const handleTypeChange = useCallback((e) => {
     setType(e.target.value);
-  };
+  }, []);
 
-  const handleAddQuestion = (e) => {
-    const id =
-      questions.length === 0 ? 0 : questions[questions.length - 1].id + 1;
-    const newTitle = "";
-    const options = [];
-    const answer = Number(0);
-    const newQuestions = [...questions, { id, title: newTitle, options, answer }];
-    setQuestions(newQuestions);
-  };
-
-  const copyQuestion = (question) => {
-    const { id, title, answer } = question;
-    const options = [...question.options];
-    return { id, title, answer, options };
-  };
+  const handleAddQuestion = useCallback(() => {
+    setQuestions((prev) => {
+      const id = prev.length === 0 ? 0 : prev[prev.length - 1].id + 1;
+      return [...prev, { id, title: "", options: [], answer: 0 }];
+    });
+  }, []);
 
   // question form control
-  const handleQuestionTitleChange = (id, value) => {
-    const index = questions.findIndex((question) => question.id === id);
-    const newQuestions = [...questions];
-    newQuestions[index].title = value;
-    setQuestions(newQuestions);
-  };
+  const handleQuestionTitleChange = useCallback((id, value) => {
+    setQuestions((prev) => {
+      const index = prev.findIndex((q) => q.id === id);
+      const newQuestions = [...prev];
+      newQuestions[index] = { ...newQuestions[index], title: value };
+      return newQuestions;
+    });
+  }, []);
 
-  const handleQuestionAnswerChange = (id, value) => {};
+  const handleRemoveQuestion = useCallback((id) => {
+    setQuestions((prev) => prev.filter((q) => q.id !== id));
+  }, []);
 
-  const handleRemoveQuestion = (id) => {
-    const newQuestions = questions.filter(
-      (question) => question.id !== id
-    );
-    setQuestions(newQuestions);
-  };
+  const handleQuestionAddOption = useCallback((q_id) => {
+    setQuestions((prev) => {
+      const index = prev.findIndex((q) => q.id === q_id);
+      const question = { ...prev[index] };
+      const { options } = question;
+      const opt_id =
+        options.length === 0 ? 0 : options[options.length - 1].id + 1;
+      question.options = [...options, { id: opt_id, value: "" }];
+      const newQuestions = [...prev];
+      newQuestions[index] = question;
+      return newQuestions;
+    });
+  }, []);
 
-  const handleQuestionAddOption = (q_id) => {
-    const index = questions.findIndex((question) => question.id === q_id);
-    const newQuestions = [...questions];
-    const question = { ...newQuestions[index] };
-    const { options } = question;
-    const opt_id =
-      options.length === 0 ? 0 : options[options.length - 1].id + 1;
-    const option = { id: opt_id, value: "" };
-    const newOptions = [...options, option];
-    question.options = newOptions;
-    newQuestions[index] = question;
-    setQuestions(newQuestions);
-  };
+  const handleOptionChange = useCallback((q_id, opt_id, value) => {
+    setQuestions((prev) => {
+      const index = prev.findIndex((q) => q.id === q_id);
+      const question = { ...prev[index] };
+      const newOptions = [...question.options];
+      const optionIndex = newOptions.findIndex((o) => o.id === opt_id);
+      newOptions[optionIndex] = { ...newOptions[optionIndex], value };
+      question.options = newOptions;
+      const newQuestions = [...prev];
+      newQuestions[index] = question;
+      return newQuestions;
+    });
+  }, []);
 
-  const handleOptionChange = (q_id, opt_id, value) => {
-    // console.log(q_id, opt_id, value);
-    const index = questions.findIndex((question) => question.id === q_id);
-    const newQuestions = [...questions];
-    const question = { ...newQuestions[index] };
-    const { options } = question;
-    const option_index = options.findIndex((option) => option.id === opt_id);
-    const newOptions = [...options];
-    newOptions[option_index].value = value;
-    question.options = newOptions;
-    newQuestions[index] = question;
-    setQuestions(newQuestions);
-  };
+  const handleRemoveOption = useCallback((q_id, opt_id) => {
+    setQuestions((prev) => {
+      const index = prev.findIndex((q) => q.id === q_id);
+      const question = { ...prev[index] };
+      const newOptions = [];
+      let counter = 0;
+      for (const option of question.options) {
+        if (option.id === opt_id) continue;
+        newOptions.push({ ...option, id: counter++ });
+      }
+      question.options = newOptions;
+      const newQuestions = [...prev];
+      newQuestions[index] = question;
+      return newQuestions;
+    });
+  }, []);
 
-  const handleRemoveOption = (q_id, opt_id) => {
-    // console.log("Question", q_id, "Option", opt_id);
-    const index = questions.findIndex((question) => question.id === q_id);
-    const newQuestions = [...questions];
-    const question = { ...newQuestions[index] };
-    const { options } = question;
-    // const newOptions = options.filter((option) => option.id !== opt_id);
-    const newOptions = [];
-    let counter = 0;
-    for (let i = 0; i < options.length; i++) {
-      const option = options[i];
-      if (option.id === opt_id) continue;
-      option.id = counter++;
-      newOptions.push(option);
-    }
-    question.options = newOptions;
-    newQuestions[index] = question;
-    setQuestions(newQuestions);
-  };
+  const handleSelectAnswer = useCallback((q_id, opt_id) => {
+    setQuestions((prev) => {
+      const index = prev.findIndex((q) => q.id === q_id);
+      const newQuestions = [...prev];
+      newQuestions[index] = { ...newQuestions[index], answer: opt_id };
+      return newQuestions;
+    });
+  }, []);
 
-  const handleSelectAnswer = (q_id, opt_id) => {
-    const index = questions.findIndex((question) => question.id === q_id);
-    const newQuestions = [...questions];
-    const question = { ...newQuestions[index] };
-    question.answer = opt_id;
-    newQuestions[index] = question;
-    setQuestions(newQuestions);
-  };
-
-  const handleSubmitQuiz = () => {
+  const handleSubmitQuiz = useCallback(() => {
     const quizData = { title, description, type, questions };
     QuizService.submit(quizData).then((response) => {
       if (response === false) {
@@ -132,7 +117,7 @@ const QuizBuilder = (props) => {
         navigate("/quiz-done", { state: { quiz_id: _id } });
       }
     });
-  };
+  }, [title, description, type, questions, navigate]);
 
   if (!props.checkLogin()) {
     return <Navigate to={{ pathname: "/login" }} />;
