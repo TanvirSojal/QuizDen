@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useCallback, memo } from "react";
 import QuizOption from "./QuizOption";
 
-const QuizQuestion = (props) => {
-  const handleSelectAnswer = (e) => {
-    props.onSelectAnswer(props.question.id, parseInt(e.target.value));
-  };
+const QuizQuestion = memo((props) => {
+  const { onSelectAnswer, question } = props;
 
-  const { question } = props;
+  const handleSelectAnswer = useCallback(
+    (e) => {
+      onSelectAnswer(question.id, parseInt(e.target.value));
+    },
+    [onSelectAnswer, question.id]
+  );
+
   return (
     <div className="col-sm-8 offset-sm-2 section mt-4">
       <div className="row">
@@ -60,6 +64,8 @@ const QuizQuestion = (props) => {
       </div>
     </div>
   );
-};
+});
+
+QuizQuestion.displayName = "QuizQuestion";
 
 export default QuizQuestion;

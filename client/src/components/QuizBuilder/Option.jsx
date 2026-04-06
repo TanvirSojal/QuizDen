@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useCallback, memo } from "react";
 import Emoji from "../Layout/Emoji";
 
-const Option = (props) => {
-  const handleOptionChange = (e) => {
-    props.onChange(props.id, e.target.value);
-  };
+const Option = memo((props) => {
+  const { onChange, onDelete, id, value } = props;
 
-  const handleOptionRemove = (e) => {
-    props.onDelete(props.id);
-  };
+  const handleOptionChange = useCallback(
+    (e) => {
+      onChange(id, e.target.value);
+    },
+    [onChange, id]
+  );
+
+  const handleOptionRemove = useCallback(() => {
+    onDelete(id);
+  }, [onDelete, id]);
 
   return (
     <div className="col-sm-12">
@@ -16,13 +21,13 @@ const Option = (props) => {
         <div className="col-sm-12">
           <div className="row option-section">
             <div className="card">
-              <label className="option-label">{props.id + 1}</label>
+              <label className="option-label">{id + 1}</label>
             </div>
             <div className="card">
               <input
                 className="option-input"
                 type="text"
-                value={props.value}
+                value={value}
                 onChange={handleOptionChange}
               />
             </div>
@@ -39,6 +44,8 @@ const Option = (props) => {
       </div>
     </div>
   );
-};
+});
+
+Option.displayName = "Option";
 
 export default Option;

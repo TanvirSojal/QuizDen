@@ -1,25 +1,54 @@
-import React from "react";
+import React, { useCallback, memo } from "react";
 import Emoji from "../Layout/Emoji";
 import Option from "./Option";
 
-const Question = (props) => {
-  const handleTitleChange = (e) => {
-    props.onTitleChange(props.question.id, e.target.value);
-  };
+const Question = memo((props) => {
+  const {
+    onTitleChange,
+    onOptionChange,
+    onOptionRemove,
+    onSelectAnswer,
+    onRemove,
+    onAddOption,
+    question,
+  } = props;
 
-  const handleOptionChange = (opt_id, value) => {
-    props.onOptionChange(props.question.id, opt_id, value);
-  };
+  const handleTitleChange = useCallback(
+    (e) => {
+      onTitleChange(question.id, e.target.value);
+    },
+    [onTitleChange, question.id]
+  );
 
-  const handleOptionRemove = (opt_id) => {
-    props.onOptionRemove(props.question.id, opt_id);
-  };
+  const handleOptionChange = useCallback(
+    (opt_id, value) => {
+      onOptionChange(question.id, opt_id, value);
+    },
+    [onOptionChange, question.id]
+  );
 
-  const handleSelectAnswer = (e) => {
-    props.onSelectAnswer(props.question.id, parseInt(e.target.value));
-  };
+  const handleOptionRemove = useCallback(
+    (opt_id) => {
+      onOptionRemove(question.id, opt_id);
+    },
+    [onOptionRemove, question.id]
+  );
 
-  const { question } = props;
+  const handleSelectAnswer = useCallback(
+    (e) => {
+      onSelectAnswer(question.id, parseInt(e.target.value));
+    },
+    [onSelectAnswer, question.id]
+  );
+
+  const handleRemove = useCallback(() => {
+    onRemove(question.id);
+  }, [onRemove, question.id]);
+
+  const handleAddOption = useCallback(() => {
+    onAddOption(question.id);
+  }, [onAddOption, question.id]);
+
   return (
     <div className="col-sm-8 offset-sm-2 section mt-4">
       <div className="row">
@@ -71,13 +100,13 @@ const Question = (props) => {
         <div className="col-sm-2">
           <button
             className="remove-button"
-            onClick={() => props.onRemove(question.id)}
+            onClick={handleRemove}
           >
             <Emoji emoji="🗑️" /> Remove
           </button>
           <button
             className="add-button"
-            onClick={() => props.onAddOption(question.id)}
+            onClick={handleAddOption}
           >
             <Emoji emoji="✍️" /> Add Option
           </button>
@@ -85,6 +114,8 @@ const Question = (props) => {
       </div>
     </div>
   );
-};
+});
+
+Question.displayName = "Question";
 
 export default Question;
